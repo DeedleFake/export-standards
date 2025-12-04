@@ -1,21 +1,4 @@
-# bun-react-tailwind-template
+Export Standards
+================
 
-To install dependencies:
-
-```bash
-bun install
-```
-
-To start a development server:
-
-```bash
-bun dev
-```
-
-To run for production:
-
-```bash
-bun start
-```
-
-This project was created using `bun init` in bun v1.3.3. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+This is a tiny little project designed to parse an HTML file saved from an NSG Standards Registry search and convert it into a CSV file for more easily importing into a spreadsheet. It runs entirely in the browser. To access the app, visit https://deedlefake.github.io/export-standards.
