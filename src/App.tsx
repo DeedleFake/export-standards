@@ -1,7 +1,8 @@
 import { useState, useMemo, type ChangeEvent } from "react";
 
-import { convertToCSV } from "./converter";
 import "./index.css";
+import Instructions from "./Instructions";
+import { convertToCSV } from "./converter";
 
 type ErrorParams = {
   error: string;
@@ -37,10 +38,10 @@ function Buttons({ csv }: ButtonsParams) {
 
   return (
     <>
-      <a href={url} role="button" className="btn">
+      <a href={url} role="button" className="btn btn-primary">
         Download CSV
       </a>
-      <button className="btn" onClick={copy}>
+      <button className="btn btn-primary" onClick={copy}>
         Copy CSV to Clipboard
       </button>
     </>
@@ -69,6 +70,7 @@ export function App() {
 
   return (
     <div className="flex flex-col items-center gap-4 p-8">
+      <Instructions />
       <textarea
         className="textarea"
         placeholder="Paste HTML here..."
