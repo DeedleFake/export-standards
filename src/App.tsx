@@ -37,7 +37,7 @@ function Buttons({ csv }: ButtonsParams) {
 
   return (
     <>
-      <a href={url} role="button" className="btn" download="standards.csv">
+      <a href={url} role="button" className="btn">
         Download CSV
       </a>
       <button className="btn" onClick={copy}>
