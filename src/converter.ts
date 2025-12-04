@@ -5,7 +5,7 @@ export function convertToCSV(html: string): string {
 
   const headers = Array.from(
     tree.querySelectorAll<HTMLTableCellElement>(
-			"table#resultTable > thead > tr > th",
+      "table#resultTable > thead > tr > th",
     ),
   ).map((data) => data.innerText);
   if (headers.length == 0) {
