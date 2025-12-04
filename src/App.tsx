@@ -3,18 +3,55 @@ import { useState, useMemo, type ChangeEvent } from "react";
 import { convertToCSV } from "./converter";
 import "./index.css";
 
-export function App() {
-  const [error, setError] = useState<string | null>(null);
-  const [csv, setCSV] = useState<string | null>(null);
+type ErrorParams = {
+  error: string;
+};
+
+function Error({ error }: ErrorParams) {
+  return (
+    <div className="alert alert-error">
+      <div className="flex flex-col">
+        <h3 className="font-bold">Failed to convert to CSV:</h3>
+        <div>{error}</div>
+      </div>
+    </div>
+  );
+}
+
+type ButtonsParams = {
+  csv: string;
+};
+
+function Buttons({ csv }: ButtonsParams) {
   const url = useMemo(() => {
-    if (csv == null) {
-      return null;
-    }
     const file = new File([csv], "standards.csv", { type: "text/csv" });
     return URL.createObjectURL(file);
   }, [csv]);
 
-  const updateLink = async (ev: ChangeEvent<HTMLTextAreaElement>) => {
+  const copy = () => {
+    if (csv == null) {
+      return;
+    }
+    navigator.clipboard.writeText(csv);
+  };
+
+  return (
+    <>
+      <a href={url} role="button" className="btn" download="standards.csv">
+        Download CSV
+      </a>
+      <button className="btn" onClick={copy}>
+        Copy CSV to Clipboard
+      </button>
+    </>
+  );
+}
+
+export function App() {
+  const [error, setError] = useState<string | null>(null);
+  const [csv, setCSV] = useState<string | null>(null);
+
+  const updateLink = (ev: ChangeEvent<HTMLTextAreaElement>) => {
     try {
       const text = ev.target.value;
       if (text === "") {
@@ -30,13 +67,6 @@ export function App() {
     }
   };
 
-  const copy = () => {
-    if (csv == null) {
-      return;
-    }
-    navigator.clipboard.writeText(csv);
-  };
-
   return (
     <div className="flex flex-col items-center gap-4 p-8">
       <textarea
@@ -46,19 +76,9 @@ export function App() {
       />
       <div className="flex flex-row gap-2">
         {error != null ? (
-          <div className="alert alert-error alert-vertical">
-            <h3 className="font-bold">Failed to convert to CSV:</h3>
-            <div>{error}</div>
-          </div>
-        ) : csv != null && url != null ? (
-          <>
-            <a href={url} role="button" className="btn">
-              Download CSV
-            </a>
-            <button className="btn" onClick={copy}>
-              Copy CSV to Clipboard
-            </button>
-          </>
+          <Error error={error} />
+        ) : csv != null ? (
+          <Buttons csv={csv} />
         ) : (
           <div className="alert alert-info alert-soft">
             Please paste the HTML into the above textarea.
